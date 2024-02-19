@@ -10,7 +10,10 @@ let screenClear = document.querySelector(".start");
 let timer = document.getElementById("time");
 let questionTitle = document.getElementById("question-title");
 let choiceButtons = document.getElementById("choices");
-let Buttons = document.querySelectorAll("button");
+let choicesEl = document.querySelectorAll("button");
+let finalScore = document.getElementById("end-screen");
+let startBtn =document.getElementById("start");
+let submitBtn = document.getElementById("submit");
 
 
 // reference the sound effects
@@ -59,55 +62,59 @@ function getQuestion() {
     const newBtnOne = document.createElement("button");
     newBtnOne.setAttribute("label",questions[i].choices[0]);
     newBtnOne.setAttribute("value",questions[i].choices[0]);
+    newBtnOne.textContent = questions[i].choices[0];
     
-    const newBtnTwo = document.createElement("button");
-    newBtnTwo.setAttribute("label",questions[i].choices[1]);
-    newBtnTwo.setAttribute("value",questions[i].choices[1]);
-
-    const newBtnThree = document.createElement("button");
-    newBtnThree.setAttribute("label",questions[i].choices[2]);
-    newBtnThree.setAttribute("value",questions[i].choices[2]);
-
-    const newBtnFour = document.createElement("button");
-    newBtnFour.setAttribute("label",questions[i].choices[3]);
-    newBtnFour.setAttribute("value",questions[i].choices[3]);
-
-
-    // display the choice button on the page
+    //display the choice button on the page
     choiceButtons.appendChild(newBtnOne);
-    choiceButtons.appendChild(newBtnTwo);
-    choiceButtons.appendChild(newBtnThree);
-    choiceButtons.appendChild(newBtnFour);
-
   }
 }
 
 function questionClick(event) {
   // identify the targeted button that was clicked on
-  Buttons.addEventListener(onclick);
+ 
+ 
 
   // if the clicked element is not a choice button, do nothing.
-
-
+  
+  
   // check if user guessed wrong
-  // if () {
+  if (answer != questions[currentQuestionIndex].answer) {
   // if they got the answer wrong, penalize time by subtracting 15 seconds from the timer
+  time - 15
   // recall the timer is the score they get at the end
 
   // if they run out of time (i.e., time is less than zero) set time to zero so we can end quiz
+  if(time < 0){
+    time = 0;
+  };
 
 
   // display new time on page
+  timer.innerHTML = 0;
 
   // play "wrong" sound effect
+  let incorrectAudio = incorrect.wav;
+  incorrectAudio.play();
+
 
   // display "wrong" feedback on page
+  let feedback = document.createElement("p");
+  feedback.setAttribute("class","feedback");
+  questionsEl.appendChild(feedback);
+
 
 } else {
   // play "right" sound effect
+  let correctAudio = correct.wav;
+  correctAudio.play();
+
 
   // display "right" feedback on page by displaying the text "Correct!" in the feedback element
+  let correctFeeback = document.createElement("p");
+  correctFeeback.setAttribute("class","feedback");
+  questionsEl.appendChild(correctFeeback);
 
+}
 }
 // flash right/wrong feedback on page for half a second
 // set the feedback element to have the class of "feedback"
@@ -129,10 +136,13 @@ function quizEnd() {
   // stop the timer
 
   // show end screen
+  finalScore.setAttribute("class","start");
 
   // show final score
+  
 
   // hide the "questions" section
+  questionsEl.setAttribute("class","hide");
 }
 
 // add the code in this function to update the time, it should be called every second
@@ -187,4 +197,4 @@ startBtn.onclick = startQuiz;
 // user clicks on an element containing choices
 choicesEl.onclick = questionClick;
 
-initialsEl.onkeyup = checkForEnter;
+//initialsEl.onkeyup = checkForEnter;
