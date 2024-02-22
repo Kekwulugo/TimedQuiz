@@ -10,7 +10,6 @@ let screenClear = document.querySelector(".start");
 let timer = document.getElementById("time");
 let questionTitle = document.getElementById("question-title");
 let choiceButtons = document.getElementById("choices");
-let choicesEl = document.querySelectorAll(".choices");
 let finalScore = document.getElementById("end-screen");
 let startBtn =document.getElementById("start");
 let submitBtn = document.getElementById("submit");
@@ -58,7 +57,7 @@ function getQuestion() {
     const newBtnOne = document.createElement("button");
     newBtnOne.setAttribute("label",questions[currentQuestionIndex].choices[i]);
     newBtnOne.setAttribute("value",questions[currentQuestionIndex].choices[i]);
-     newBtnOne.setAttribute("class","choices");
+     newBtnOne.setAttribute("id",questions[currentQuestionIndex].choices[i]);
     newBtnOne.textContent = questions[currentQuestionIndex].choices[i];
     
     //display the choice button on the page
@@ -66,19 +65,22 @@ function getQuestion() {
   };
 };
 
-function questionClick(event) {
-  console.log(event.target.value);
-  // identify the targeted button that was clicked on
-  // if the clicked element is not a choice button, do nothing.
-  //if (event.target.tagName === "BUTTON"){
-    //return false;
 
+
+
+function questionClick(event) {
+  // identify the targeted button that was clicked on
+   let target = event.target.id;
+
+  // if the clicked element is not a choice button, do nothing.
+ 
     // check if user guessed wrong
-   if (buttonValue !== questions[currentQuestionIndex].answer) {
+    console.log(questions[currentQuestionIndex].answer);
+   if (target !== questions[currentQuestionIndex].answer) {
     
     // if they got the answer wrong, penalize time by subtracting 15 seconds from the timer
     // recall the timer is the score they get at the end
-     time - 15;
+     console.log(time -= 15);
 
     // if they run out of time (i.e., time is less than zero) set time to zero so we can end quiz
     if(time < 0){
@@ -93,7 +95,7 @@ function questionClick(event) {
   // display "wrong" feedback on page
   let feedback = document.createElement("p");
   feedback.setAttribute("class","feedback");
-  feedback.innerHTML = "Wrong";
+  feedback.innerHTML = "Wrong!";
   questionsEl.appendChild(feedback);
   } else {
   // play "right" sound effect
@@ -106,14 +108,13 @@ function questionClick(event) {
   correctFeeback.innerHTML = "Right!"
   questionsEl.appendChild(correctFeeback);
 };
-};
+
   
 // flash right/wrong feedback on page for half a second
 
+
 // after one second, remove the "feedback" class from the feedback element
-setInterval(function(){
-  let feedbackElement = document.querySelector(".feedback");
-},1000);
+
 
 // move to next question
 currentQuestionIndex++;
@@ -127,6 +128,7 @@ if(currentQuestionIndex > 5 ||  time < 0 ){
   } else{
     getQuestion();
   };
+};
 
 
 // define the steps of the QuizEnd function...when the quiz ends...
@@ -199,7 +201,6 @@ submitBtn.onclick = saveHighScore;
 startBtn.onclick = startQuiz;
 
 // user clicks on an element containing choices
-
-choicesEl.onclick = questionClick;
+choiceButtons.onclick = questionClick;
 
 //initialsEl.onkeyup = checkForEnter;
