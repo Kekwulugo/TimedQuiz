@@ -11,8 +11,11 @@ let timer = document.getElementById("time");
 let questionTitle = document.getElementById("question-title");
 let choiceButtons = document.getElementById("choices");
 let finalScore = document.getElementById("end-screen");
+let finalEl = document.getElementById("final-score");
 let startBtn =document.getElementById("start");
 let submitBtn = document.getElementById("submit");
+let initialsEl = document.getElementById("initials");
+
 
 
 // reference the sound effects
@@ -46,6 +49,9 @@ function getQuestion() {
   questionTitle.innerHTML = question.title; 
 
   // clear out any old question choices
+  while (choiceButtons.firstChild) {
+    choiceButtons.removeChild();
+}
   
 
   // loop over the choices for each question
@@ -57,7 +63,8 @@ function getQuestion() {
     const newBtnOne = document.createElement("button");
     newBtnOne.setAttribute("label",questions[currentQuestionIndex].choices[i]);
     newBtnOne.setAttribute("value",questions[currentQuestionIndex].choices[i]);
-     newBtnOne.setAttribute("id",questions[currentQuestionIndex].choices[i]);
+    newBtnOne.setAttribute("id",questions[currentQuestionIndex].choices[i]);
+    newBtnOne.setAttribute("class","choicebtn");
     newBtnOne.textContent = questions[currentQuestionIndex].choices[i];
     
     //display the choice button on the page
@@ -70,17 +77,16 @@ function getQuestion() {
 
 function questionClick(event) {
   // identify the targeted button that was clicked on
-   let target = event.target.id;
+  let target = event.target.id;
 
   // if the clicked element is not a choice button, do nothing.
- 
+
     // check if user guessed wrong
-    console.log(questions[currentQuestionIndex].answer);
-   if (target !== questions[currentQuestionIndex].answer) {
+
+  if (target !== questions[currentQuestionIndex].answer) {
     
     // if they got the answer wrong, penalize time by subtracting 15 seconds from the timer
     // recall the timer is the score they get at the end
-     console.log(time -= 15);
 
     // if they run out of time (i.e., time is less than zero) set time to zero so we can end quiz
     if(time < 0){
@@ -116,6 +122,7 @@ function questionClick(event) {
 // after one second, remove the "feedback" class from the feedback element
 
 
+
 // move to next question
 currentQuestionIndex++;
 
@@ -123,7 +130,7 @@ currentQuestionIndex++;
 // if the time is less than zero and we have reached the end of the questions array,
 // call a function that ends the quiz (quizEnd function)
 // or else get the next question
-if(currentQuestionIndex > 5 ||  time < 0 ){
+if(currentQuestionIndex > 4 ||  time < 0 ){
     quizEnd();
   } else{
     getQuestion();
@@ -140,7 +147,7 @@ function quizEnd() {
   finalScore.setAttribute("class","start");
 
   // show final score
-  finalScore.innerHTML = "The final score is " + time;
+  finalEl.innerHTML = time;
   
 
   // hide the "questions" section
@@ -159,14 +166,20 @@ function clockTick() {
     quizEnd();
   };
   },1000);
+
 };
 
 // complete the steps to save the high score
 function saveHighScore() {
 
   // get the value of the initials input box
+  
+  let initials = initialsEl.value;
 
   // make sure the value of the initials input box wasn't empty
+  if (initials = null){
+    alert("This field cannot be blank!")
+  } else if ()
 
   // if it is not, check and see if there is a value of high scores in local storage
 
