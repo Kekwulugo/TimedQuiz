@@ -9,12 +9,14 @@ let questionsEl = document.getElementById('questions');
 let screenClear = document.querySelector(".start");
 let timer = document.getElementById("time");
 let questionTitle = document.getElementById("question-title");
-let choiceButtons = document.getElementById("choices");
+let choiceEl = document.getElementById("choices");
 let finalScore = document.getElementById("end-screen");
 let finalEl = document.getElementById("final-score");
 let startBtn =document.getElementById("start");
 let submitBtn = document.getElementById("submit");
 let initialsEl = document.getElementById("initials");
+
+
 
 
 
@@ -49,9 +51,11 @@ function getQuestion() {
   questionTitle.innerHTML = question.title; 
 
   // clear out any old question choices
-  while (choiceButtons.firstChild) {
-    choiceButtons.removeChild();
-}
+  let choiceButtons = document.querySelectorAll("button.choicebtn");
+  console.log(choiceButtons);
+  choiceButtons.forEach(e => e.remove());
+  
+
   
 
   // loop over the choices for each question
@@ -61,14 +65,14 @@ function getQuestion() {
 
     // create a new button for each choice, setting the label and value for the button
     const newBtnOne = document.createElement("button");
+    newBtnOne.setAttribute("class","choicebtn");
     newBtnOne.setAttribute("label",questions[currentQuestionIndex].choices[i]);
     newBtnOne.setAttribute("value",questions[currentQuestionIndex].choices[i]);
     newBtnOne.setAttribute("id",questions[currentQuestionIndex].choices[i]);
-    newBtnOne.setAttribute("class","choicebtn");
     newBtnOne.textContent = questions[currentQuestionIndex].choices[i];
     
     //display the choice button on the page
-    choiceButtons.appendChild(newBtnOne);
+    choiceEl.appendChild(newBtnOne);
   };
 };
 
@@ -179,7 +183,9 @@ function saveHighScore() {
   // make sure the value of the initials input box wasn't empty
   if (initials = null){
     alert("This field cannot be blank!")
-  } else if ()
+  } else if (initials > 1){
+
+  }
 
   // if it is not, check and see if there is a value of high scores in local storage
 
@@ -214,6 +220,6 @@ submitBtn.onclick = saveHighScore;
 startBtn.onclick = startQuiz;
 
 // user clicks on an element containing choices
-choiceButtons.onclick = questionClick;
+choiceEl.onclick = questionClick;
 
 //initialsEl.onkeyup = checkForEnter;
