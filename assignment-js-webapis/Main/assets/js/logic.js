@@ -145,7 +145,7 @@ if(currentQuestionIndex > 4 ||  time < 0 ){
 // define the steps of the QuizEnd function...when the quiz ends...
 function quizEnd() {
   // stop the timer
-  clearInterval();
+  clearInterval(timeInt);
 
   // show end screen
   finalScore.setAttribute("class","start");
@@ -158,20 +158,22 @@ function quizEnd() {
   questionsEl.setAttribute("class","hide");
 }
 
+
 // add the code in this function to update the time, it should be called every second
+let timeInt = setInterval(clockTick,1000);
+
 function clockTick() {
   // right here - update time
-  setInterval(function(){
-    time--;
+  time--;
   // update the element to display the new time value
   timer.innerHTML = time;
   // check if user ran out of time; if so, call the quizEnd() function
   if(time < 0 ){
     quizEnd();
   };
-  },1000);
+  }
 
-};
+
 
 // complete the steps to save the high score
 function saveHighScore() {
