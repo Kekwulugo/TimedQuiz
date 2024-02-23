@@ -15,6 +15,7 @@ let finalEl = document.getElementById("final-score");
 let startBtn =document.getElementById("start");
 let submitBtn = document.getElementById("submit");
 let initialsEl = document.getElementById("initials");
+let feedbackEl = document.getElementById("feedback")
 
 
 
@@ -52,12 +53,8 @@ function getQuestion() {
 
   // clear out any old question choices
   let choiceButtons = document.querySelectorAll("button.choicebtn");
-  console.log(choiceButtons);
   choiceButtons.forEach(e => e.remove());
   
-
-  
-
   // loop over the choices for each question
   // get the number of questions
   let numberOfQuestions = questions.length; // assign it the value of the length of the questions array
@@ -103,27 +100,27 @@ function questionClick(event) {
   sfxWrong.play();
 
   // display "wrong" feedback on page
-  let feedback = document.createElement("p");
-  feedback.setAttribute("class","feedback");
-  feedback.innerHTML = "Wrong!";
-  questionsEl.appendChild(feedback);
+  feedbackEl.innerHTML = "Wrong!";
+  
   } else {
   // play "right" sound effect
   sfxRight.play();
 
   // display "right" feedback on page by displaying the text "Correct!" in the feedback element
-  let correctFeeback = document.createElement("p");
-  // set the feedback element to have the class of "feedback"
-  correctFeeback.setAttribute("class","feedback");
-  correctFeeback.innerHTML = "Right!"
-  questionsEl.appendChild(correctFeeback);
-};
+  feedbackEl.innerHTML = "Correct!";
+  }
 
-  
-// flash right/wrong feedback on page for half a second
+  // set the feedback element to have the class of "feedback"
+  feedbackEl.setAttribute("class","feedback");
+
+  // flash right/wrong feedback on page for half a second
 
 
 // after one second, remove the "feedback" class from the feedback element
+let feedbackClass = setInterval(function(){
+feedbackEl.setAttribute("class","hide");
+},1000);
+
 
 
 
@@ -140,6 +137,7 @@ if(currentQuestionIndex > 4 ||  time < 0 ){
     getQuestion();
   };
 };
+
 
 
 // define the steps of the QuizEnd function...when the quiz ends...
