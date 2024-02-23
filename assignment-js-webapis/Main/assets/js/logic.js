@@ -18,9 +18,6 @@ let initialsEl = document.getElementById("initials");
 let feedbackEl = document.getElementById("feedback")
 
 
-
-
-
 // reference the sound effects
 let sfxRight = new Audio('assets/sfx/correct.wav');
 let sfxWrong = new Audio('assets/sfx/incorrect.wav');
@@ -35,7 +32,7 @@ function startQuiz() {
   questionsEl.classList.add("start");
 
   // start timer
-  clockTick();
+  timerId = setInterval(clockTick,1000);
   
   // show starting time
   timer.innerHTML = time;
@@ -87,6 +84,7 @@ function questionClick(event) {
   if (target !== questions[currentQuestionIndex].answer) {
     
     // if they got the answer wrong, penalize time by subtracting 15 seconds from the timer
+    time -= 15;
     // recall the timer is the score they get at the end
 
     // if they run out of time (i.e., time is less than zero) set time to zero so we can end quiz
@@ -117,12 +115,9 @@ function questionClick(event) {
 
 
 // after one second, remove the "feedback" class from the feedback element
-let feedbackClass = setInterval(function(){
+////let feedbackClass = setInterval(function(){
 feedbackEl.setAttribute("class","hide");
-},1000);
-
-
-
+//},1000);
 
 // move to next question
 currentQuestionIndex++;
@@ -139,11 +134,10 @@ if(currentQuestionIndex > 4 ||  time < 0 ){
 };
 
 
-
 // define the steps of the QuizEnd function...when the quiz ends...
 function quizEnd() {
   // stop the timer
-  clearInterval(timeInt);
+  clearInterval(timerId);
 
   // show end screen
   finalScore.setAttribute("class","start");
@@ -158,9 +152,7 @@ function quizEnd() {
 
 
 // add the code in this function to update the time, it should be called every second
-let timeInt = setInterval(clockTick,1000);
-
-function clockTick() {
+function clockTick () {
   // right here - update time
   time--;
   // update the element to display the new time value
@@ -169,7 +161,8 @@ function clockTick() {
   if(time < 0 ){
     quizEnd();
   };
-  }
+};
+
 
 
 
@@ -177,25 +170,27 @@ function clockTick() {
 function saveHighScore() {
 
   // get the value of the initials input box
-  
   let initials = initialsEl.value;
+  console.log(initials);
 
   // make sure the value of the initials input box wasn't empty
-  if (initials = null){
+  if (initials == ""){
     alert("This field cannot be blank!")
-  } else if (initials > 1){
-
-  }
-
+  } else {
+   
   // if it is not, check and see if there is a value of high scores in local storage
 
   // if there isn't any, then create a new array to store the high score
+  let highscores = [];
 
   // add the new initials and high score to the array
+  highscores.initials = initials;
 
   // convert the array to a piece of text
+  highscores.toString();
 
   // store the high score in local storage
+  localStorage.setItem(initials,time);
 
   // otherwise, if there are high scores stored in local storage,
   // retrieve the local storage value that has the high scores,
@@ -205,12 +200,15 @@ function saveHighScore() {
   // then store the new array (converted to text) back in local storage
 
   // finally, redirect the user to the high scores page.
+  window.location.href = "highscores.html";
 
+}
 }
 
 // use this function when the user presses the "enter" key when submitting high score initials
 function checkForEnter(event) {
   // if the user presses the enter key, then call the saveHighscore function
+  saveHighScore();
 }
 
 // user clicks button to submit initials
@@ -222,4 +220,4 @@ startBtn.onclick = startQuiz;
 // user clicks on an element containing choices
 choiceEl.onclick = questionClick;
 
-//initialsEl.onkeyup = checkForEnter;
+initialsEl.onkeyup = checkForEnter;
