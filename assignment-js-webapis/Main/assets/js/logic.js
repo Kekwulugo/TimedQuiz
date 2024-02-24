@@ -210,11 +210,13 @@ function saveHighScore() {
 
 }
 
-
 // use this function when the user presses the "enter" key when submitting high score initials
 function checkForEnter(event) {
   // if the user presses the enter key, then call the saveHighscore function
-  //saveHighScore();
+  console.log(event.which);
+  if (event.which == 13){
+    saveHighScore();
+  }
 }
 
 // user clicks button to submit initials
