@@ -180,28 +180,29 @@ function saveHighScore() {
   // if there isn't any, then create a new array to store the high score
   const highscores = [];
 
-  // add the new initials and high score to the array and convert the array to a piece of text
+  // add the new initials and high score to the array 
   const score = {
     score: time,
     initials: initials
-
   };
   highscores.push(score);
 
-  // store the high score in local storage
+  // store the high score in local storage and convert the array to a piece of text
   localStorage.setItem("highscores",JSON.stringify(highscores));
   } else {
   // otherwise, if there are high scores stored in local storage,
   // retrieve the local storage value that has the high scores,
-  const localScores = localStorage.getItem("highscores");
-
+    const scoreArr = JSON.parse(localStorage.getItem("highscores"));
   // convert it back to an array,
-  const scoreArr = localScores.split(",");
   // add the new initials and high score to the array,
-  scoreArr.push({"initials":initials},{"score":time});
+  const scoreTwo = {
+    score: time,
+    initials: initials
+  };
+  scoreArr.push(scoreTwo);
   // then convert the array back to a piece of text,
   // then store the new array (converted to text) back in local storage
-  localStorage.setItem("scoreArr",JSON.stringify(scoreArr));
+  localStorage.setItem("highscores",JSON.stringify(scoreArr));
   }
 
   // finally, redirect the user to the high scores page.
