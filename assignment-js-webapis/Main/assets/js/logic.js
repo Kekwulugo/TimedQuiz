@@ -117,10 +117,12 @@ function questionClick(event) {
 // after one second, remove the "feedback" class from the feedback element
 let feedbackClass = setInterval(function(){
 feedbackEl.setAttribute("class","hide");
-},1000);
+},1500);
 
 // move to next question
 currentQuestionIndex++;
+
+
 
 // check if we've run out of questions
 // if the time is less than zero and we have reached the end of the questions array,
