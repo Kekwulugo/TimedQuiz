@@ -4,7 +4,7 @@
 This project is timed quiz with questions related to Javascript. The timer starts to countdown once the user starts the quiz and will deduct 15 seconds from the time clock when the user answers a questuion wrong. At the end of the quiz the users final time becomes their score and the user can submit their scores to the highscores array, stored in local storage.
 
 ## Usage
-Project link: 
+Project link: https://kekwulugo.github.io/TimedQuiz/
 ![alt text](Highscores.png)
 ![alt text](QuizHome.png)
 
