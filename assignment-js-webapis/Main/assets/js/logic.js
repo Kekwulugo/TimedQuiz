@@ -115,9 +115,9 @@ function questionClick(event) {
 
 
 // after one second, remove the "feedback" class from the feedback element
-////let feedbackClass = setInterval(function(){
+let feedbackClass = setInterval(function(){
 feedbackEl.setAttribute("class","hide");
-//},1000);
+},1000);
 
 // move to next question
 currentQuestionIndex++;
@@ -164,51 +164,56 @@ function clockTick () {
 };
 
 
-
-
 // complete the steps to save the high score
 function saveHighScore() {
 
   // get the value of the initials input box
   let initials = initialsEl.value;
-  console.log(initials);
 
   // make sure the value of the initials input box wasn't empty
   if (initials == ""){
     alert("This field cannot be blank!")
-  } else {
-   
-  // if it is not, check and see if there is a value of high scores in local storage
 
+    // if it is not, check and see if there is a value of high scores in local storage
+  } else if (localStorage.getItem("highscores")== null) {
+    
   // if there isn't any, then create a new array to store the high score
-  let highscores = [];
+  const highscores = [];
 
-  // add the new initials and high score to the array
-  highscores.initials = initials;
+  // add the new initials and high score to the array and convert the array to a piece of text
+  const score = {
+    score: time,
+    initials: initials
 
-  // convert the array to a piece of text
-  highscores.toString();
+  };
+  highscores.push(score);
 
   // store the high score in local storage
-  localStorage.setItem(initials,time);
-
+  localStorage.setItem("highscores",JSON.stringify(highscores));
+  } else {
   // otherwise, if there are high scores stored in local storage,
   // retrieve the local storage value that has the high scores,
+  const localScores = localStorage.getItem("highscores");
+
   // convert it back to an array,
+  const scoreArr = localScores.split(",");
   // add the new initials and high score to the array,
+  scoreArr.push({"initials":initials},{"score":time});
   // then convert the array back to a piece of text,
   // then store the new array (converted to text) back in local storage
+  localStorage.setItem("scoreArr",JSON.stringify(scoreArr));
+  }
 
   // finally, redirect the user to the high scores page.
   window.location.href = "highscores.html";
 
 }
-}
+
 
 // use this function when the user presses the "enter" key when submitting high score initials
 function checkForEnter(event) {
   // if the user presses the enter key, then call the saveHighscore function
-  saveHighScore();
+  //saveHighScore();
 }
 
 // user clicks button to submit initials
